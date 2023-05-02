@@ -20,11 +20,15 @@ public class User {
     @GraphQLQuery(name = "email", description = "A User's email")
     private String email;
 
-
-
     public User() {
+
     }
 
+    public User(String nombre, String apellido, String email) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+    }
     public User(Long id, String nombre, String apellido, String email) {
         this.id = id;
         this.nombre = nombre;

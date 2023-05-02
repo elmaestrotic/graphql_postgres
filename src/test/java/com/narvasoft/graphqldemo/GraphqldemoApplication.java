@@ -1,6 +1,8 @@
 package com.narvasoft.graphqldemo;
 
 import graphql.ExecutionResult;
+import io.leangen.graphql.annotations.GraphQLArgument;
+import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
@@ -55,6 +57,39 @@ public class GraphqldemoApplication {
         return userservice.getUsers().stream().filter(user -> usuarios.contains(user.getNombre())).collect(Collectors.toList());
     }
 
+    @MutationMapping(name = "createUser")
+    public User createUser(
+            @Argument String nombre,
+            @Argument String apellido,
+            @Argument String email){
+        User user = new User();
+        user.setNombre(nombre);
+        user.setApellido(apellido);
+        user.setEmail(email);
+        //@Argument Double price) {
+        //log.info("Saving book, name {}", name);
+        //User user = new  User(nombre, apellido, email);
+        return userservice.createUser(user.getNombre(), user.getApellido(), user.getEmail());
+    }
+
+    @MutationMapping(name = "updateUser")//UPDATE
+    public User updateUser(@GraphQLArgument(name = "id") Long id,
+                           @GraphQLArgument(name = "nombre") String nombre,
+                           @GraphQLArgument(name = "apellido") String apellido,
+                           @GraphQLArgument(name = "email") String email) {
+        User user = new User();
+        user.setId(id);
+        user.setNombre(nombre);
+        user.setApellido(apellido);
+        user.setEmail(email);
+        return userservice.updateUser(user.getId(), user.getNombre(), user.getApellido(), user.getEmail());
+    }
+
+
+
+
+
+
 
     /*private static List<User> obtenerUsuarios(User otro) {
         var listaBase = new ArrayList<>(listaDeUsuarios());
@@ -72,11 +107,10 @@ public class GraphqldemoApplication {
 */
 
 
-
-    @Bean
+  /*  @Bean
     ApplicationRunner init(UserRepository repository) {
         return args -> {
-            User user = new User();
+            User user = new User("", "", "");
             user.setNombre("Juan");
             user.setApellido("Perez");
             user.setEmail("jp@gmail.com");
@@ -87,7 +121,7 @@ public class GraphqldemoApplication {
             userservice.getUsers().forEach(System.out::println);
         };
 
-    }
+    }*/
 
 
 
@@ -96,10 +130,8 @@ public class GraphqldemoApplication {
         var nuevoUser = new User(idCounter.incrementAndGet(), nuevo.getNombre(), nuevo.getApellido(), nuevo.getEmail());
         bbdd = obtenerUsuarios(nuevoUser);
         return Mono.just(nuevoUser);
-    }*/
-
+    }
+*/
 
 
 }
-
-
