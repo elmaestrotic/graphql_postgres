@@ -1,0 +1,21 @@
+# Root
+type Query {
+    users: [User]
+    countUsers: Int
+}
+
+type User {
+    id: ID
+    nombre: String
+    apellido: String
+    email:String
+}
+
+# Root
+type Mutation {
+    createUser(id: Int!, nombre: String, apellido: String, email: String): User!
+    updateUser(id: Int!, nombre: String, apellido: String, email: String): User!
+    deleteUser(id: Int!): User!
+}
+
+
