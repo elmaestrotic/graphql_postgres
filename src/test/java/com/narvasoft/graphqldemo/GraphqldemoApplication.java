@@ -35,9 +35,6 @@ public class GraphqldemoApplication {
     private UserService userservice;
 
 
-
-
-
     public static void main(String[] args) {
         SpringApplication.run(GraphqldemoApplication.class, args);
     }
@@ -47,7 +44,7 @@ public class GraphqldemoApplication {
         return userservice.getUsers();
 
     }
-/*
+
     @BatchMapping(typeName = "users")
     public List<User> getUsuarios() {
         return userservice.getUsers();
@@ -76,7 +73,7 @@ public class GraphqldemoApplication {
 
 
 
-    /*@Bean
+    @Bean
     ApplicationRunner init(UserRepository repository) {
         return args -> {
             User user = new User();
@@ -90,7 +87,7 @@ public class GraphqldemoApplication {
             userservice.getUsers().forEach(System.out::println);
         };
 
-    }*/
+    }
 
 
 
