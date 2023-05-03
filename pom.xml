@@ -68,7 +68,10 @@
 			<artifactId>graphql-java-tools</artifactId>
 			<version>11.0.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.graphql</groupId>
+			<artifactId>spring-graphql</artifactId>
+		</dependency>
 
 
 	</dependencies>

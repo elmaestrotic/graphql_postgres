@@ -1,8 +1,8 @@
 package resolver;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import com.narvasoft.graphqldemo.User;
-import com.narvasoft.graphqldemo.UserRepository;
+import com.narvasoft.graphqldemo.model.User;
+import com.narvasoft.graphqldemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

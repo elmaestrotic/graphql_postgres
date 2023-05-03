@@ -1,24 +1,20 @@
-package com.narvasoft.graphqldemo;
+package com.narvasoft.graphqldemo.controller;
 
-import graphql.ExecutionResult;
+import com.narvasoft.graphqldemo.model.User;
+import com.narvasoft.graphqldemo.service.UserService;
 import io.leangen.graphql.annotations.GraphQLArgument;
-import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,23 +24,26 @@ import java.util.stream.Collectors;
 @RestController
 @GraphQLApi
 @SpringBootApplication
+
+@ComponentScan({"com.narvasoft.graphqldemo"})
+@EntityScan("com.narvasoft.graphqldemo")
+@EnableJpaRepositories("com.narvasoft.graphqldemo.repository")
+
+
 public class GraphqldemoApplication {
     private static List<User> bbdd = new ArrayList<>();
     static AtomicLong idCounter = new AtomicLong(3L);
 
-
     @Autowired
     private UserService userservice;
-
 
     public static void main(String[] args) {
         SpringApplication.run(GraphqldemoApplication.class, args);
     }
 
-    @QueryMapping
+    @QueryMapping(name= "users")
     public List<User> getUsers() {
         return userservice.getUsers();
-
     }
 
     @BatchMapping(typeName = "users")
@@ -85,10 +84,11 @@ public class GraphqldemoApplication {
         return userservice.updateUser(user.getId(), user.getNombre(), user.getApellido(), user.getEmail());
     }
 
+    @MutationMapping(name = "deleteUser")//DELETE
+    public void deleteUser(@GraphQLArgument(name = "id") Long id) {
+       userservice.deleteUser(id);
 
-
-
-
+    }
 
 
     /*private static List<User> obtenerUsuarios(User otro) {
@@ -135,3 +135,4 @@ public class GraphqldemoApplication {
 
 
 }
+

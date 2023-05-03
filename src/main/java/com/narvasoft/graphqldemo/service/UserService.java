@@ -1,15 +1,14 @@
-package com.narvasoft.graphqldemo;
+package com.narvasoft.graphqldemo.service;
 
+import com.narvasoft.graphqldemo.model.User;
+import com.narvasoft.graphqldemo.repository.UserRepository;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.Optional;
 @GraphQLApi
 public class UserService {
     @Autowired
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
 
     //@Autowired
     //private UserService userservice;
@@ -100,8 +99,10 @@ public class UserService {
     }
 
     @GraphQLMutation(name = "deleteUser")//DELETE
-    public void deleteUser(@GraphQLArgument(name = "id") Long id) {
+    public User deleteUser(@GraphQLArgument(name = "id") Long id) {
+
         userRepository.deleteById(id);
+        return user;
     }
 
 }

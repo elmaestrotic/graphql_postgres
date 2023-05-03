@@ -1,4 +1,4 @@
-package com.narvasoft.graphqldemo;
+package com.narvasoft.graphqldemo.model;
 
 import io.leangen.graphql.annotations.GraphQLQuery;
 import jakarta.persistence.*;
