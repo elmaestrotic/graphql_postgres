@@ -14,7 +14,7 @@ type User {
 # Root
 type Mutation {
     createUser(nombre: String, apellido: String, email: String): User
-    updateUser(id: Int!, nombre: String, apellido: String, email: String): User
+    updateUserio(id: Int!, nombre: String, apellido: String, email: String): User
     deleteUser(id: Int!): User
 }
 

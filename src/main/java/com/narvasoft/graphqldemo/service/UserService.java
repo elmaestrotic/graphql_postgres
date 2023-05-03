@@ -89,14 +89,23 @@ public class UserService {
     }*/
 
 
-    @GraphQLMutation(name = "updateUser")//UPDATE
-    public User updateUser(@GraphQLArgument(name = "id") Long id,
-                           @GraphQLArgument(name = "nombre") String nombre,
-                           @GraphQLArgument(name = "apellido") String apellido,
-                           @GraphQLArgument(name = "email") String email) {
-        user= new User(id,nombre, apellido, email);
-        return userRepository.save(user);
+
+    //@ExceptionHandler(Exception.class)
+
+    public User updateUser(Long id, String nombre, String apellido, String email) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setNombre(nombre);
+            user.setApellido(apellido);
+            user.setEmail(email);
+            return userRepository.save(user);
+        } else {
+            throw new RuntimeException("No se encontró ningún usuario con el id especificado: " + id);
+        }
     }
+
+
 
     @GraphQLMutation(name = "deleteUser")//DELETE
     public User deleteUser(@GraphQLArgument(name = "id") Long id) {
