@@ -3,8 +3,6 @@ package com.narvasoft.graphqldemo.controller;
 import com.narvasoft.graphqldemo.model.User;
 import com.narvasoft.graphqldemo.repository.UserRepository;
 import com.narvasoft.graphqldemo.service.UserService;
-import io.leangen.graphql.annotations.GraphQLArgument;
-import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,6 +13,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 //@ComponentScan({"com.narvasoft.graphqldemo"})
 @EntityScan("com.narvasoft.graphqldemo")
@@ -31,6 +30,11 @@ public class UserController {
     @QueryMapping(name = "users")
     public List<User> getUsers() {
         return userservice.getUsers();
+    }
+
+    @QueryMapping(name = "user")
+    public Optional<User> getUser(@Argument(name = "id") Long id) {
+        return userservice.getUser(id);
     }
 
     /*ejemplo de filter con streams
@@ -51,13 +55,9 @@ public class UserController {
     }
 
 
-    @GraphQLMutation(name = "updateUserio")
-    public User updateUser(@GraphQLArgument(name = "id") Long id,
-                           @GraphQLArgument(name = "nombre") String nombre,
-                           @GraphQLArgument(name = "apellido") String apellido,
-                           @GraphQLArgument(name = "email") String email) {
-        User updatedUser = userservice.updateUser(id, nombre, apellido, email);
-        return updatedUser;
+    @MutationMapping(name = "updateUser")
+    public User updateUser(@Argument Long id, @Argument String nombre, @Argument String apellido, @Argument String email) {
+        return userservice.updateUser(id, nombre, apellido, email);
     }
 
 
