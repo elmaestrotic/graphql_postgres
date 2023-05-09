@@ -21,9 +21,6 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-
-    //@Autowired
-    //private UserService userservice;
     private User user;
 
     public UserService(UserRepository userRepository) {
@@ -36,29 +33,11 @@ public class UserService {
     }
 
     @GraphQLQuery(name = "user")//READ ONE BY ID
-    public Optional<User> getUser(@GraphQLArgument(name = "id") Long id) {
-        return Optional.ofNullable(userRepository.findById(id).orElse(null));
+    public Optional<User> getUser(Long id) {
+        return userRepository.findById(id);
     }
-/*
-    @GraphQLMutation(name = "createUser")//CREATE
-     public User createUser(@GraphQLArgument(name = "nombre") String nombre,
-                           @GraphQLArgument(name = "apellido") String apellido,
-                           @GraphQLArgument(name = "email") String email) {
-      var user = new User(nombre, apellido, email);
-        //return userRepository.save(user);
 
-        //user.setNombre(nombre);
-        //user.setApellido(apellido);
-        //user.setEmail(email);
-
-
-       UserService userservice = new UserService(userRepository);//sino queda null el objeto userservice
-       // userservice.createUser(user.getNombre(), user.getApellido(), user.getEmail());
-        //userservice.createUser(nombre, apellido,email);
-        return userRepository.save(user);
-    }*/
-
-    @MutationMapping(name = "createUser")
+    @MutationMapping(name = "createUser") //CREATE
     public User createUser(
             @Argument String nombre,
             @Argument String apellido,
@@ -67,30 +46,8 @@ public class UserService {
         user.setNombre(nombre);
         user.setApellido(apellido);
         user.setEmail(email);
-                //@Argument Double price) {
-        //log.info("Saving book, name {}", name);
-        //User user = new  User(nombre, apellido, email);
         return userRepository.save(user);
     }
-
-/*
-    @GraphQLMutation(name = "createUser")//CREATE
-    public User createUser(@GraphQLArgument(name = "nombre") String nombre,
-                           @GraphQLArgument(name = "apellido") String apellido,
-                           @GraphQLArgument(name = "email") String email) {
-        // 1. Crear una instancia del objeto "User" con los datos proporcionados como argumentos.
-        User user = new User(nombre, apellido, email);
-
-        // 2. Persistir la instancia del objeto "User" en la base de datos o en cualquier otro medio de almacenamiento permanente.
-        userService.save(user);
-
-        // 3. Devolver la instancia del objeto "User" creado como resultado de la mutación.
-        return user;
-    }*/
-
-
-
-    //@ExceptionHandler(Exception.class)
 
     public User updateUser(Long id, String nombre, String apellido, String email) {
         Optional<User> userOptional = userRepository.findById(id);
@@ -104,8 +61,6 @@ public class UserService {
             throw new RuntimeException("No se encontró ningún usuario con el id especificado: " + id);
         }
     }
-
-
 
     @GraphQLMutation(name = "deleteUser")//DELETE
     public User deleteUser(@GraphQLArgument(name = "id") Long id) {
