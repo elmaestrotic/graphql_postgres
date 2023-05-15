@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @QueryMapping(name = "user")
-    public Optional<User> getUser(@Argument(name = "id") Long id) {
+    public Optional<User> getUser(@Argument Long id) {
         return userservice.getUser(id);
     }
 
